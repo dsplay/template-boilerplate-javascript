@@ -27,7 +27,9 @@ var dsplay_media = {
 
 // these variables must be registered during the template creation in the Web Manager
 var dsplay_template = {
+    title_opacity: '.9',
     text_opacity: '.5',
+    base_font_size: '2em',
     title: 'Hello!',
     image: 'https://dsplay.tv/site/wp-content/uploads/2019/11/logo.png',
 };

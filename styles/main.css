@@ -2,10 +2,11 @@ html, body, #root {
     height: 100%;
     width: 100%;
     margin: 0;
+    background-color: teal;
 }
 
 #root {
-    background-color: teal;
+    opacity: 0;
     color: white;
     display: flex;
     flex-direction: column;
