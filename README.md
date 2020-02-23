@@ -1,3 +1,5 @@
+[](https://developers.dsplay.tv/assets/images/dsplay-logo.png)!
+
 # DSPLAY - JavaScript Template Boilerplate
 
 This is a Vanilla JavaScript boilerplate for building [HTML-based templates](https://developers.dsplay.tv/docs/html-templates) for [DSPLAY - Digital Signage](https://dsplay.tv/) platform.
