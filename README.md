@@ -14,6 +14,7 @@ You can use this project as a skeleton for creating a new HTML Template with pur
 |   |
 |   |-- scripts
 |   |   |-- app.js
+|   |   |-- core-js.js
 |   |   |-- dsplay-data.js  <-- can be located anywhere in the template structure
 |   |   |-- dsplay-template-utils.js
 |   |
