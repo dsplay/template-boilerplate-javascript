@@ -1,6 +1,8 @@
 # DSPLAY - JavaScript Template Boilerplate
 
-You can use this project as a skeleton for creating a new [HTML-based template](https://developers.dsplay.tv/docs/html-templates) for DSPLAY.
+This is a Vanilla JavaScript boilerplate for building [HTML-based templates](https://developers.dsplay.tv/docs/html-templates) for [DSPLAY - Digital Signage](https://dsplay.tv/) platform.
+
+You can use this project as a skeleton for creating a new HTML Template with pure JavaScript, without any extra library. If you prefer to use a JS library, check the [other boilerplates](https://developers.dsplay.tv/docs/html-templates/boilerplates/) available.
 
 ## Directory Structure
 
@@ -19,7 +21,7 @@ You can use this project as a skeleton for creating a new [HTML-based template](
 
 This structure is just a suggestion.
 
-> The only requirement regarding the project structure is that you must have an index.html in the root of your project, and a file called dsplay-data.js located anywhere in the project folder. The rest of the structure is up to you. ([see the docs](https://developers.dsplay.tv/docs/html-templates/#directory-structure))
+> The only requirement regarding the project structure is that you must have an `index.html` in the root of your project, and a file called `dsplay-data.js` located anywhere in the project folder. The rest of the structure is up to you. ([see the docs](https://developers.dsplay.tv/docs/html-templates/#directory-structure))
 
 ## Packing
 
