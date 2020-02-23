@@ -36,6 +36,8 @@ For linux users, just run:
 ./pack.sh
 ```
 
+It will generate a `template.zip` file ready to be deployed to [DSPLAY Web Manager](https://manager.dsplay.tv/template/create)
+
 ## More
 
 The see more about DSPLAY HTML Templates, visit: https://developers.dsplay.tv/docs/html-templates
