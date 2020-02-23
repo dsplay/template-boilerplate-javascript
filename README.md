@@ -35,3 +35,7 @@ For linux users, just run:
 ```sh
 ./pack.sh
 ```
+
+## More
+
+The see more about DSPLAY - HTML Template, visit: https://developers.dsplay.tv/docs/html-templates
