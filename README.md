@@ -38,4 +38,4 @@ For linux users, just run:
 
 ## More
 
-The see more about DSPLAY - HTML Template, visit: https://developers.dsplay.tv/docs/html-templates
+The see more about DSPLAY HTML Templates, visit: https://developers.dsplay.tv/docs/html-templates
