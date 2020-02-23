@@ -1,4 +1,4 @@
-[](https://developers.dsplay.tv/assets/images/dsplay-logo.png)!
+![DSPLAY - Digital Signage](https://developers.dsplay.tv/assets/images/dsplay-logo.png)
 
 # DSPLAY - JavaScript Template Boilerplate
 
