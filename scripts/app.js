@@ -1,23 +1,33 @@
 "use strict";
 
 (function () {
+    // here we can apply use DSPLAY values to your template
+    var u = dsplayTemplateUtils;
 
-    // here we can apply the dsplay-data.js values to your template
+    // to get the entire data object use
+    // in development mode, it will use the values from your dsplay-data.js file
+    // in production mode, it will get the values from the DSPLAY Android app
+    var data = JSON.parse(u.DSPLAY.getData());
+    console.log('data', data);
 
-    // we have access to dsplay objects: dsplay_config, dsplay_media and dsplay_template
-    document.querySelector('.title').innerHTML = dsplay_template.title;
+    // you can algo get individual values using the built-in shortcuts
+    console.log('media', u.media);
+    console.log('template', u.template);
+    console.log('config', u.config);
 
-    var opacity = parseFloat(dsplay_template.text_opacity);
+    document.querySelector('.title').innerHTML = u.template.title;
+
+    var opacity = parseFloat(u.template.text_opacity);
     var text = document.querySelector('.text');
-    text.innerHTML = dsplay_media.name;
+    text.innerHTML = u.media.name;
     text.style.opacity = opacity;
 
-    document.querySelector('img').src = dsplay_template.image;
+    document.querySelector('img').src = u.template.image;
 
     // dsplayTemplateUtils can make our lives easier
     // use the method tval to get string values with a optional default value
     // the methods tbval, tival, tfval are useful for non-string values (boolean, integer, float)
-    var u = dsplayTemplateUtils;
+    
 
     var fontSize = u.tval('base_font_size', '1.5em');
     document.body.style.fontSize = fontSize;

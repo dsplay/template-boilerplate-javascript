@@ -1,5 +1,5 @@
 /** 
- * The content of this file will be replaced for the real values at runtime
+ * The contents of this file will be ignored at runtime
 **/
 
 
