@@ -1,5 +1,5 @@
 /** 
- * The contents of this file will be ignored at runtime
+ * Contents of this file will be ignored at runtime
 **/
 
 
