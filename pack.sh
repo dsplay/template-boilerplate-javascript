@@ -1,4 +1,4 @@
-INPUT="index.html images scripts styles"
+INPUT="index.html assets scripts styles"
 OUTPUT=template.zip
 
 rm $OUTPUT
