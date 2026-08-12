@@ -88,6 +88,8 @@ Your template logic lives in `scripts/app.js`. It reads values through `window.d
 - `u.template`, `u.media`, `u.config` — the raw objects, if you'd rather read a value directly (e.g. `u.template.title`).
 - `u.DSPLAY.getData()` — the raw JSON string DSPLAY injects, `{ media, config, template }`.
 
+> Once you've settled on your template's variables, document them in your own README (a `Key | Type | Default | Description` table) and remember to register them as Template Vars (same name and type) when configuring your template in the DSPLAY CMS.
+
 #### Local development data
 
 `scripts/dsplay-data.js` defines `dsplay_config`, `dsplay_media`, and `dsplay_template` mock globals, used **only** when the template isn't running inside the actual DSPLAY app (i.e. while you're developing locally). Edit it to try out different variable values:

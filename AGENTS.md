@@ -40,6 +40,20 @@ The structure is a suggestion, not a hard requirement. The only real constraints
 
 Script load order in `index.html` matters: `core-js` → `dsplay-data.js` → `dsplay-template-utils.js` → `app.js`.
 
+## README structure
+
+Every DSPLAY template's `README.md` follows the same skeleton (this repo's is the reference copy — most sections below aren't applicable to a generic boilerplate, only to an actual template):
+
+1. Logo badge + `# DSPLAY - <Name>` + a one/two-sentence description.
+2. *(optional, only if the template has more than one visual arrangement)* **Features** — named widgets/modes, and any special in-text commands.
+3. *(optional, only if appearance changes meaningfully by screen format)* **Supported screen formats** — a table with a screenshot per format (landscape/portrait/square/horizontal banner).
+4. **Template variables** — a `Key | Type | Default | Description` table; this is the one section every real template has. Add a `### <variable> syntax` sub-section when a single variable's value is itself a small grammar worth explaining rather than cramming it into the table cell. End with: "Remember to also register these as Template Vars (same name and type) when configuring this template in the DSPLAY CMS."
+5. **Local development** — `npm install`, serve `index.html`, plus the `dsplay-data.js` explanation.
+6. *(optional, only if some customization requires editing code rather than a variable)* **For developers** — a short list of `customization -> file path` pointers.
+7. **Generating the template package**, **Deploying**, **Updating vendored dependencies** (-> AGENTS.md), **More** — same wording as this repo's README.md.
+
+Skip a numbered section entirely rather than including it empty.
+
 ## Dependency management (boilerplate maintainers only)
 
 The *template's own* runtime code has no `npm install` step — third-party code it uses (`core-js`, `dsplay-template-utils.js`) is vendored directly into `scripts/` as pre-built bundles fetched from a CDN (e.g. unpkg), not installed via npm. `npm install` in this repo only installs `@dsplay/template-manifest`, the packaging-time devDependency used by `pack.sh` — see "Packing / deployment" below.
