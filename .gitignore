@@ -1,2 +1,5 @@
 template.zip
 .claude
+node_modules
+template-variables.json
+template-example-data.json
