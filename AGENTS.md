@@ -40,6 +40,12 @@ The structure is a suggestion, not a hard requirement. The only real constraints
 
 Script load order in `index.html` matters: `core-js` → `dsplay-data.js` → `dsplay-template-utils.js` → `app.js`.
 
+## Package identity
+
+Rename `package.json`'s `"name"` away from `dsplay-template-boilerplate-javascript` immediately when starting a new
+template from this boilerplate — even though `package.json` here is packaging-time-only, it should still identify
+the template itself, not the boilerplate it was cloned from. Convention: `dsplay-` + the new repo's own GitHub name.
+
 ## README structure
 
 Every DSPLAY template's `README.md` follows the same skeleton (this repo's is the reference copy — most sections below aren't applicable to a generic boilerplate, only to an actual template):
