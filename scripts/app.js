@@ -4,13 +4,9 @@
     // here we can apply use DSPLAY values to your template
     var u = dsplayTemplateUtils;
 
-    // to get the entire data object use
-    // in development mode, it will use the values from your dsplay-data.js file
-    // in production mode, it will get the values from the DSPLAY Android app
-    var data = JSON.parse(u.DSPLAY.getData());
-    console.log('data', data);
-
-    // you can algo get individual values using the built-in shortcuts
+    // you can get individual values using the built-in shortcuts
+    // in development mode, they use the values from your dsplay-data.js file
+    // in production mode, they get the values from the DSPLAY Android app
     console.log('media', u.media);
     console.log('template', u.template);
     console.log('config', u.config);
