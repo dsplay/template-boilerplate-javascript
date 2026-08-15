@@ -21,9 +21,11 @@ styles/
   main.css
 assets/
   audio/ font/ image/ video/        <-- static media, currently only favicon files are tracked
+test/
+  basic.test.js                    <-- smoke tests (see "Testing" below)
 pack.sh                             <-- generates the manifest and zips the template for upload to DSPLAY Web Manager
 update-deps.sh                      <-- updates vendored dependencies (boilerplate maintainers only, see below)
-package.json                        <-- packaging-time devDependency only (@dsplay/template-manifest), not a build step
+package.json                        <-- packaging-time devDependencies only (@dsplay/template-manifest, node:test via "test"), not a build step
 scripts/.vendored-versions.json     <-- tracks the currently-vendored version of each dep for update-deps.sh
 ```
 
@@ -39,6 +41,15 @@ The structure is a suggestion, not a hard requirement. The only real constraints
 - `scripts/core-js-<version>.js` is a vendored polyfill bundle for older WebViews used by DSPLAY devices.
 
 Script load order in `index.html` matters: `core-js` → `dsplay-data.js` → `dsplay-template-utils.js` → `app.js`.
+
+## Testing
+
+`npm test` runs `node --test` against `test/basic.test.js` — three smoke tests using only Node's built-in `node:test`/`node:assert`/`node:vm` (no Vitest, no jsdom; this template deliberately has no bundler, so it doesn't get the same test setup as the React templates):
+- every `src`/`href` in `index.html` points at a file that actually exists (catches a typo'd path or a forgotten vendored file).
+- `dsplay-data.js` actually defines `dsplay_config`/`dsplay_media`/`dsplay_template` as objects (executed in an isolated `vm` context, not `require`d — it's a plain script, not a module).
+- `app.js` at least parses as valid JavaScript (syntax-only — it isn't executed, since it expects `dsplayTemplateUtils`/the DOM to already be loaded, which a bare Node context doesn't have).
+
+This is the reference copy for the other bundler-less templates (`template-boilerplate-jquery`, `template-digital-clock-basic`, `template-chamador-loterias-caixa`, `template-skitter-slider`) — copy `test/basic.test.js` and the `"test"` script verbatim into any future one, no changes needed unless the directory layout diverges from this boilerplate's.
 
 ## Package identity
 
