@@ -28,11 +28,11 @@ This README has two audiences:
    ```sh
    npm install
    ```
-4. Open `index.html` directly in a browser, or serve it with any static file server, e.g.:
+4. Serve it with live reload:
    ```sh
-   python3 -m http.server
+   npm start
    ```
-   and visit `http://localhost:8000`.
+   and visit `http://localhost:3000` (visit the root URL, not `http://localhost:3000/index.html` directly — the reload script is only injected on that path). The page auto-reloads whenever you edit and save a file.
 
 ### Directory Structure
 
@@ -107,7 +107,7 @@ In production, the DSPLAY Android app injects the real `window.DSPLAY.getData()`
 ### Generating the template package
 
 ```sh
-./pack.sh
+npm run zip
 ```
 
 This first runs [`dsplay-scan-template`](https://www.npmjs.com/package/@dsplay/template-manifest) (from `@dsplay/template-manifest`), which statically scans `scripts/app.js` for `dsplayTemplateUtils.tval`/`tbval`/`tival`/`tfval` calls and direct `template.*` reads, and captures `dsplay-data.js` as example data — writing `template-variables.json` + `template-example-data.json` to the project root. The DSPLAY CMS reads these two files to auto-detect this template's variables and seed default preview values, instead of requiring manual registration.
@@ -133,7 +133,7 @@ This section is for the DSPLAY team, keeping this boilerplate itself current for
 `core-js` and `dsplay-template-utils.js` are pre-built bundles downloaded from a CDN and committed as-is (not installed via npm). Run:
 
 ```sh
-./update-deps.sh
+npm run update-deps
 ```
 
 It checks the latest published version of each dependency and updates the vendored file + the `<script src="...">` reference in `index.html` accordingly. **Major version bumps are skipped with a warning** rather than applied automatically, since they may contain breaking changes and this boilerplate is consumed by other templates — review the linked changelog and update manually if you want to take a major bump.

@@ -4,7 +4,7 @@ Guidance for AI agents (and humans) working in this repository.
 
 ## What this project is
 
-A Vanilla JavaScript boilerplate for building [HTML-based templates](https://developers.dsplay.tv/docs/html-templates) for the [DSPLAY - Digital Signage](https://dsplay.tv/) platform. There is no build step and no bundler — every script is a plain `<script>` tag loaded directly by the browser. There *is* a minimal `package.json`, but only for packaging-time tooling (see "Packing / deployment" below) — it plays no part in how the template itself runs.
+A Vanilla JavaScript boilerplate for building [HTML-based templates](https://developers.dsplay.tv/docs/html-templates) for the [DSPLAY - Digital Signage](https://dsplay.tv/) platform. There is no build step and no bundler — every script is a plain `<script>` tag loaded directly by the browser. `package.json` exists only for tooling around the template (packaging, a local dev server, tests — see "Packing / deployment" and "Testing" below), not for the template itself.
 
 Most people who touch this repo are building their **own** template by cloning it, customizing `scripts/app.js`, and never pushing back here — they diverge immediately (README.md tells them to `rm -rf .git && git init` right after cloning). The README's "Maintaining this boilerplate" section (dependency updates, this AGENTS.md) is only relevant to the DSPLAY team keeping *this* repo current for the next person who clones it.
 
@@ -23,9 +23,9 @@ assets/
   audio/ font/ image/ video/        <-- static media, currently only favicon files are tracked
 test/
   basic.test.js                    <-- smoke tests (see "Testing" below)
-pack.sh                             <-- generates the manifest and zips the template for upload to DSPLAY Web Manager
-update-deps.sh                      <-- updates vendored dependencies (boilerplate maintainers only, see below)
-package.json                        <-- packaging-time devDependencies only (@dsplay/template-manifest, node:test via "test"), not a build step
+pack.sh                             <-- generates the manifest and zips the template for upload to DSPLAY Web Manager (wrapped by `npm run zip`)
+update-deps.sh                      <-- updates vendored dependencies (boilerplate maintainers only, see below; wrapped by `npm run update-deps`)
+package.json                        <-- devDependencies only (@dsplay/template-manifest for "zip", servor for "start", node:test for "test"), not a build step
 scripts/.vendored-versions.json     <-- tracks the currently-vendored version of each dep for update-deps.sh
 ```
 
@@ -41,6 +41,10 @@ The structure is a suggestion, not a hard requirement. The only real constraints
 - `scripts/core-js-<version>.js` is a vendored polyfill bundle for older WebViews used by DSPLAY devices.
 
 Script load order in `index.html` matters: `core-js` → `dsplay-data.js` → `dsplay-template-utils.js` → `app.js`.
+
+## Local development
+
+`npm start` runs [`servor`](https://www.npmjs.com/package/servor) (`. index.html 3000 --reload --browse`) — a zero-dependency static file server with live reload, picked specifically because it doesn't pull in a bundler (Vite et al.), matching this template's whole "no build step" premise. Visit `http://localhost:3000` (the **root** URL) — `servor` only injects its live-reload script into extension-less "route" requests, so `http://localhost:3000/index.html` (with the explicit filename) silently serves the page without reload wired up. The page auto-reloads whenever any file changes and you save.
 
 ## Testing
 
@@ -65,7 +69,7 @@ Every DSPLAY template's `README.md` follows the same skeleton (this repo's is th
 2. *(optional, only if the template has more than one visual arrangement)* **Features** — named widgets/modes, and any special in-text commands.
 3. *(optional, only if appearance changes meaningfully by screen format)* **Supported screen formats** — a table with a screenshot per format (landscape/portrait/square/horizontal banner).
 4. **Template variables** — a `Key | Type | Default | Description` table; this is the one section every real template has. Add a `### <variable> syntax` sub-section when a single variable's value is itself a small grammar worth explaining rather than cramming it into the table cell. End with: "Remember to also register these as Template Vars (same name and type) when configuring this template in the DSPLAY CMS."
-5. **Local development** — `npm install`, serve `index.html`, plus the `dsplay-data.js` explanation.
+5. **Local development** — `npm install`, `npm start`, plus the `dsplay-data.js` explanation.
 6. *(optional, only if some customization requires editing code rather than a variable)* **For developers** — a short list of `customization -> file path` pointers.
 7. **Generating the template package**, **Deploying**, **Updating vendored dependencies** (-> AGENTS.md), **More** — same wording as this repo's README.md.
 
@@ -73,19 +77,19 @@ Skip a numbered section entirely rather than including it empty.
 
 ## Dependency management (boilerplate maintainers only)
 
-The *template's own* runtime code has no `npm install` step — third-party code it uses (`core-js`, `dsplay-template-utils.js`) is vendored directly into `scripts/` as pre-built bundles fetched from a CDN (e.g. unpkg), not installed via npm. `npm install` in this repo only installs `@dsplay/template-manifest`, the packaging-time devDependency used by `pack.sh` — see "Packing / deployment" below.
+The *template's own* runtime code has no `npm install` step — third-party code it uses (`core-js`, `dsplay-template-utils.js`) is vendored directly into `scripts/` as pre-built bundles fetched from a CDN (e.g. unpkg), not installed via npm. `npm install` in this repo only installs devDependencies for tooling around the template (`@dsplay/template-manifest` for `npm run zip`, `servor` for `npm start`) — see "Local development" above and "Packing / deployment" below.
 
-Run `./update-deps.sh` to update the vendored bundles. For each dependency it: fetches the latest published version from the npm registry, compares it against `scripts/.vendored-versions.json` (the only record of the currently-vendored version, since `dsplay-template-utils.js` keeps a constant filename with no version in it), and:
+Run `npm run update-deps` (wraps `./update-deps.sh`) to update the vendored bundles. For each dependency it: fetches the latest published version from the npm registry, compares it against `scripts/.vendored-versions.json` (the only record of the currently-vendored version, since `dsplay-template-utils.js` keeps a constant filename with no version in it), and:
 - if it's a **major** version bump, skips it and prints a warning — this needs a human to review the changelog first, since it may contain breaking changes and this boilerplate is consumed by other templates. Never bypass this guard as an agent; surface the warning to the user instead.
 - otherwise, downloads the new bundle (renaming `core-js-<version>.js` to match, or overwriting the constant `dsplay-template-utils.js`), updates the `<script src="...">` reference in `index.html` when the filename changed, and updates `scripts/.vendored-versions.json`.
 
-After running it, sanity check by serving the project locally (e.g. `python3 -m http.server`) and confirming the page loads with no console errors and the mock data from `dsplay-data.js` renders, then commit.
+After running it, sanity check with `npm start` and confirming the page loads with no console errors and the mock data from `dsplay-data.js` renders, then commit.
 
 ## Packing / deployment
 
-Run `npm install` once (installs the `@dsplay/template-manifest` devDependency), then `./pack.sh`. It first runs `dsplay-scan-template`, which statically scans `scripts/app.js` for `dsplayTemplateUtils.tval`/`tbval`/`tival`/`tfval` calls and direct `template.*` reads, and captures `dsplay-data.js` as example data — writing `template-variables.json` + `template-example-data.json` to the project root. It then zips `index.html`, `assets/`, `scripts/`, `styles/`, and those two generated files into `template.zip`, ready to upload to the [DSPLAY Web Manager](https://manager.dsplay.tv/template/create). The DSPLAY CMS reads the two JSON files to auto-detect this template's variables instead of requiring manual registration.
+Run `npm install` once, then `npm run zip` (wraps `./pack.sh`). It first runs `dsplay-scan-template`, which statically scans `scripts/app.js` for `dsplayTemplateUtils.tval`/`tbval`/`tival`/`tfval` calls and direct `template.*` reads, and captures `dsplay-data.js` as example data — writing `template-variables.json` + `template-example-data.json` to the project root. It then zips `index.html`, `assets/`, `scripts/`, `styles/`, and those two generated files into `template.zip`, ready to upload to the [DSPLAY Web Manager](https://manager.dsplay.tv/template/create). The DSPLAY CMS reads the two JSON files to auto-detect this template's variables instead of requiring manual registration.
 
-`template.zip`, `node_modules/`, and the two generated JSON files are gitignored and should never be committed — `pack.sh` regenerates them every run.
+`template.zip`, `node_modules/`, and the two generated JSON files are gitignored and should never be committed — `npm run zip` regenerates them every run.
 
 ## Commit messages
 
