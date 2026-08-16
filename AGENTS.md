@@ -36,7 +36,7 @@ The structure is a suggestion, not a hard requirement. The only real constraints
 ## Runtime model
 
 - `scripts/dsplay-data.js` defines `dsplay_config`, `dsplay_media`, and `dsplay_template` globals used only in **development**. Its contents are ignored at runtime on the actual DSPLAY device/app.
-- `scripts/dsplay-template-utils.js` (the `@dsplay/template-utils` UMD bundle) exposes `window.dsplayTemplateUtils` with `media`, `config`, `template`, `DSPLAY`, and the `tval`/`tbval`/`tival`/`tfval`/`isVertical` helpers. In production, the DSPLAY Android app injects `window.DSPLAY.getData()`; in development it falls back to the mock data from `dsplay-data.js`.
+- `scripts/dsplay-template-utils.js` (the [`@dsplay/template-utils`](https://github.com/dsplay/template-utils) UMD bundle) exposes `window.dsplayTemplateUtils` with `media`, `config`, `template`, `DSPLAY`, and the `tval`/`tbval`/`tival`/`tfval`/`isVertical` helpers. In production, the DSPLAY Android app injects `window.DSPLAY.getData()`; in development it falls back to the mock data from `dsplay-data.js`.
 - `scripts/app.js` is where template-specific logic lives — read `template`/`media`/`config` values via `dsplayTemplateUtils` and update the DOM.
 - `scripts/core-js-<version>.js` is a vendored polyfill bundle for older WebViews used by DSPLAY devices.
 
@@ -53,7 +53,7 @@ Script load order in `index.html` matters: `core-js` → `dsplay-data.js` → `d
 - `dsplay-data.js` actually defines `dsplay_config`/`dsplay_media`/`dsplay_template` as objects (executed in an isolated `vm` context, not `require`d — it's a plain script, not a module).
 - `app.js` at least parses as valid JavaScript (syntax-only — it isn't executed, since it expects `dsplayTemplateUtils`/the DOM to already be loaded, which a bare Node context doesn't have).
 
-This is the reference copy for the other bundler-less templates (`template-boilerplate-jquery`, `template-digital-clock-basic`, `template-chamador-loterias-caixa`, `template-skitter-slider`) — copy `test/basic.test.js` and the `"test"` script verbatim into any future one, no changes needed unless the directory layout diverges from this boilerplate's.
+This is the reference copy for the other bundler-less templates ([`template-boilerplate-jquery`](https://github.com/dsplay/template-boilerplate-jquery), [`template-digital-clock-basic`](https://github.com/dsplay/template-digital-clock-basic), [`template-chamador-loterias-caixa`](https://github.com/dsplay/template-chamador-loterias-caixa), [`template-skitter-slider`](https://github.com/dsplay/template-skitter-slider)) — copy `test/basic.test.js` and the `"test"` script verbatim into any future one, no changes needed unless the directory layout diverges from this boilerplate's.
 
 ## Package identity
 
@@ -77,7 +77,7 @@ Skip a numbered section entirely rather than including it empty.
 
 ## Dependency management (boilerplate maintainers only)
 
-The *template's own* runtime code has no `npm install` step — third-party code it uses (`core-js`, `dsplay-template-utils.js`) is vendored directly into `scripts/` as pre-built bundles fetched from a CDN (e.g. unpkg), not installed via npm. `npm install` in this repo only installs devDependencies for tooling around the template (`@dsplay/template-manifest` for `npm run zip`, `servor` for `npm start`) — see "Local development" above and "Packing / deployment" below.
+The *template's own* runtime code has no `npm install` step — third-party code it uses (`core-js`, `dsplay-template-utils.js`) is vendored directly into `scripts/` as pre-built bundles fetched from a CDN (e.g. unpkg), not installed via npm. `npm install` in this repo only installs devDependencies for tooling around the template ([`@dsplay/template-manifest`](https://github.com/dsplay/template-manifest) for `npm run zip`, `servor` for `npm start`) — see "Local development" above and "Packing / deployment" below.
 
 Run `npm run update-deps` (wraps `./update-deps.sh`) to update the vendored bundles. For each dependency it: fetches the latest published version from the npm registry, compares it against `scripts/.vendored-versions.json` (the only record of the currently-vendored version, since `dsplay-template-utils.js` keeps a constant filename with no version in it), and:
 - if it's a **major** version bump, skips it and prints a warning — this needs a human to review the changelog first, since it may contain breaking changes and this boilerplate is consumed by other templates. Never bypass this guard as an agent; surface the warning to the user instead.
