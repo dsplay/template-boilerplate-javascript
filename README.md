@@ -52,7 +52,7 @@ This README has two audiences:
 |   |   |-- main.css
 |   |
 |   |-- package.json                  <-- packaging-time devDependency only, not a build step
-|   |-- pack.sh                       <-- generates the manifest and zips the template
+|   |-- pack.mjs                      <-- generates the manifest and zips the template (Windows/macOS/Linux)
 ```
 
 This structure is just a suggestion.
@@ -114,9 +114,9 @@ This first runs [`dsplay-scan-template`](https://www.npmjs.com/package/@dsplay/t
 
 It then zips `index.html`, `assets/`, `scripts/`, `styles/`, and the two generated JSON files into `template.zip`.
 
-> **IMPORTANT**: `index.html` must be located in the root of the `.zip` file, not inside any folder — `pack.sh` already takes care of this.
+> **IMPORTANT**: `index.html` must be located in the root of the `.zip` file, not inside any folder — `pack.mjs` already takes care of this.
 
-`template.zip`, `node_modules/`, and the two generated JSON files are gitignored and should never be committed; `pack.sh` regenerates them every run.
+`template.zip`, `node_modules/`, and the two generated JSON files are gitignored and should never be committed; `pack.mjs` regenerates them every run.
 
 ### Deploying
 
